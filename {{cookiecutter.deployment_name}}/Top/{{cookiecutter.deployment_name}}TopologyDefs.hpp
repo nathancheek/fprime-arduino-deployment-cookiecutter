@@ -7,6 +7,7 @@
 #define {{cookiecutter.__deployment_name_upper}}_{{cookiecutter.__deployment_name_upper}}TOPOLOGYDEFS_HPP
 
 #include "Fw/Types/MallocAllocator.hpp"
+#include <cstring>
 #include "{{cookiecutter.__include_path_prefix}}{{cookiecutter.deployment_name}}/Top/FppConstantsAc.hpp"
 
 // SubtopologyTopologyDefs includes

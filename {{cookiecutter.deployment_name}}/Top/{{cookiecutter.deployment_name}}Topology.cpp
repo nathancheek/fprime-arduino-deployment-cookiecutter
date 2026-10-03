@@ -26,7 +26,6 @@ Fw::MallocAllocator mallocator;
 
 // A number of constants are needed for construction of the topology. These are specified here.
 {{"enum TopologyConstants {"}}
-    FILE_DOWNLINK_TIMEOUT = 1000,
     FILE_DOWNLINK_COOLDOWN = 1000,
     FILE_DOWNLINK_CYCLE_TIME = 1000,
     FILE_DOWNLINK_FILE_QUEUE_DEPTH = 10,
@@ -38,7 +37,7 @@ Fw::MallocAllocator mallocator;
 
 // Rate groups may supply a context token to each of the attached children whose purpose is set by the project. The
 // reference topology sets each token to zero as these contexts are unused in this project.
-U32 rateGroup1Context[FppConstant_PassiveRateGroupOutputPorts::PassiveRateGroupOutputPorts] = {};
+Svc::PassiveRateGroup::ContextArray rateGroup1Context(0);
 
 /**
  * \brief configure/setup components in project-specific way
@@ -52,7 +51,7 @@ void configureTopology() {
     rateGroupDriver.configure(rateGroupDivisors);
 
     // Rate groups require context arrays.
-    rateGroup1.configure(rateGroup1Context, FW_NUM_ARRAY_ELEMENTS(rateGroup1Context));
+    rateGroup1.configure(rateGroup1Context);
 
 {%- if cookiecutter.file_system_type == "MicroFS" %}
 
@@ -70,8 +69,13 @@ void configureTopology() {
 {%- if cookiecutter.file_system_type in ["SD_Card", "MicroFS"] %}
 
     // File downlink requires some project-derived properties.
-    fileDownlink.configure(FILE_DOWNLINK_TIMEOUT, FILE_DOWNLINK_COOLDOWN, FILE_DOWNLINK_CYCLE_TIME,
-                           FILE_DOWNLINK_FILE_QUEUE_DEPTH);
+    fileDownlink.configure(FILE_DOWNLINK_COOLDOWN, FILE_DOWNLINK_CYCLE_TIME, FILE_DOWNLINK_FILE_QUEUE_DEPTH);
+
+    // File access sandboxes. Reads and writes outside them are rejected; "/" is unrestricted.
+    fileUplink.configure("/");
+    fileDownlink.configure("/");
+    fileManager.configure("/");
+    prmDb.configureSandbox("/");
 {%- endif -%}
 
 {%- if cookiecutter.file_system_type == "MicroFS" %}

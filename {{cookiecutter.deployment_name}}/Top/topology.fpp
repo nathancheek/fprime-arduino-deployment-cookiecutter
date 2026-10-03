@@ -8,7 +8,7 @@ module {{cookiecutter.deployment_namespace}} {
       rateGroup1
     }
 
-  topology {{cookiecutter.deployment_name}} {
+  deployment topology {{cookiecutter.deployment_name}} {
 
     # ----------------------------------------------------------------------
     # Subtopology imports
