@@ -73,8 +73,13 @@ module {{cookiecutter.deployment_name}} {
       rateGroup1.RateGroupMemberOut[0] -> tlmSend.Run
       rateGroup1.RateGroupMemberOut[1] -> systemResources.run
       rateGroup1.RateGroupMemberOut[2] -> comDriver.schedIn
+      rateGroup1.RateGroupMemberOut[3] -> cmdDisp.run
 {%- if cookiecutter.file_system_type in ["SD_Card", "MicroFS"] %}
-      rateGroup1.RateGroupMemberOut[3] -> fileDownlink.Run
+      rateGroup1.RateGroupMemberOut[4] -> fileDownlink.Run
+{%- endif %}
+{%- if cookiecutter.framing_selection == "CCSDS" %}
+      # Send partly filled TM frames instead of waiting for them to fill
+      rateGroup1.RateGroupMemberOut[{{ 5 if cookiecutter.file_system_type in ["SD_Card", "MicroFS"] else 4 }}] -> ComCcsds.aggregator.timeout
 {%- endif %}
     }
 
