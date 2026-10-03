@@ -279,7 +279,7 @@ extern "C" {
 #endif
 
 #ifndef FW_FILE_HANDLE_MAX_SIZE
-#define FW_FILE_HANDLE_MAX_SIZE 32  //!< Maximum size of a handle for OS queues
+#define FW_FILE_HANDLE_MAX_SIZE 48  //!< Maximum size of a handle for OS queues
 #endif
 
 #ifndef FW_MUTEX_HANDLE_MAX_SIZE
