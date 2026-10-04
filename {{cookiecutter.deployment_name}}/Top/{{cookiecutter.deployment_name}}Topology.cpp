@@ -4,7 +4,7 @@
 //
 // ======================================================================
 // Provides access to autocoded functions
-#include <{{cookiecutter.deployment_name}}/Top/{{cookiecutter.deployment_name}}TopologyAc.hpp>
+#include <{{cookiecutter.__include_path_prefix}}{{cookiecutter.deployment_name}}/Top/{{cookiecutter.deployment_name}}TopologyAc.hpp>
 #include <config/FppConstantsAc.hpp>
 #include <Fw/Logger/Logger.hpp>
 
@@ -16,7 +16,7 @@
 {%- endif %}
 
 // Allows easy reference to objects in FPP/autocoder required namespaces
-using namespace {{cookiecutter.deployment_name}};
+using namespace {{cookiecutter.deployment_namespace}};
 {%- if cookiecutter.file_system_type == "MicroFS" %}
 
 // The MicroFs file system allocates its storage from a malloc-based allocator during the initialization phase.
@@ -87,8 +87,8 @@ void configureTopology() {
 {%- endif %}
 }
 
-// Public functions for use in main program are namespaced with deployment name {{cookiecutter.deployment_name}}
-namespace {{cookiecutter.deployment_name}} {
+// Public functions for use in main program are namespaced with deployment namespace {{cookiecutter.deployment_namespace}}
+namespace {{cookiecutter.deployment_namespace}} {
 void setupTopology(const TopologyState& state) {
     // Autocoded initialization. Function provided by autocoder.
     initComponents(state);
@@ -134,4 +134,4 @@ void teardownTopology(const TopologyState& state) {
     stopTasks(state);
     freeThreads(state);
 }
-};  // namespace {{cookiecutter.deployment_name}}
+};  // namespace {{cookiecutter.deployment_namespace}}
